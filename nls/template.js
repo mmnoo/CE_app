@@ -13,8 +13,8 @@
 	  down: "MAP LEGEND ▼"
 	},
 	toolToggle:{
-	  up: "CE WIDGET ▲",
-	  down: "CE WIDGET  ▼"
+	  up: "CREATE A REPORT ▲",
+	  down: "CREATE A REPORT ▼"
 	},
 	loading:{
 		message: "Loading map"

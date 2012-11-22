@@ -1,204 +1,217 @@
-﻿ 	  html,body {
-      height:100%;
-      width:100%;
-      padding:0;
-	  margin:0;
-	  overflow:hidden;
-      }
+﻿html, body {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
 
-      body {
-      background-color:#fff;
-      color:#333;
-      font-size:14px;
-      overflow:hidden;
-      font-family:Georgia, "Times New Roman", Times, serif;
-      }
+h4 {
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 6px;
+}
+body {
+	background-color: #fff;
+	color: #333;
+	font-size: 14px;
+	overflow: hidden;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
 
-      a {
-      color:#555;
-	  font-weight:bold;
-	  text-decoration:none;
-      }
-	  
-	  a:hover{
-	  text-decoration:underline;
-	  }
+a {
+	color: #555;
+	font-weight: bold;
+	text-decoration: none;
+}
 
-      #header {
-      height:115px;
-      background:#444;
-	  color:#fff;
-      margin:0;
-      }
-	  
-	  #headerText{
-	  padding-top:20px;
-      padding-left:25px;
-	  width:70%;
-	  float:left;
-	  }
+a:hover {
+	text-decoration: underline;
+}
 
-      #title {
-	  font-family:Arial, Helvetica, sans-serif;
-      font-size:20px;
-	  font-weight:bold;
-      text-align:left;
-      white-space: nowrap;  
-      overflow: hidden;  
-      text-overflow: ellipsis;
-      -o-text-overflow:ellipsis;
-      }
+#header {
+	height: 115px;
+	background: #444;
+	color: #fff;
+	margin: 0;
+}
 
-      #subtitle {
-      font-size:13px;
-	  margin-top:10px;
-      overflow: hidden;
-      }
-	  
-	  #logoArea{
-	  float:right;
-	  padding-top:25px;
-	  padding-right:25px;
-	  text-align:right;
-	  }
-	  
-	  #social{
-	  margin-bottom:20px;
-	  }
-	  
-	  #msLink{
-	  color:#fff;
-	  font-family:Arial, Helvetica, sans-serif;
-	  font-weight:bold;
-	  font-size:13px;
-	  outline:none;
-	  }
-	  
-	  #logo{
-	  border:none;
-	  outline:none;
-	  }
-	  
-	  #logoImg{
-	  border:none;
-	  outline:none;
-	  }
+#headerText {
+	padding-top: 20px;
+	padding-left: 25px;
+	width: 70%;
+	float: left;
+}
 
-      #map {
-      margin:0;
-      }
-	  
-	  #swipeImg{
-	  display:none;
-	  position:absolute;
-	  z-index:2;
-	  }
-	  
-	  .moveable {
-      position:absolute;
-      border-left:1px solid #848484;
-	  border-right:1px solid #848484;
-      background-color: #dadada;
-      width: 6px;
-      height: 100%;
-      padding: 0 !important;
-      margin: 0;
-      z-index: 30;
-      cursor: col-resize;
-	  }
-	  
-	  .moveable:hover {
-	  background-color:#999;
-	  }
+#title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
 
-      #footer {
-	  display:none;
-      font-size:12px;
-      background:#848484;
-      height:18px;
-      margin:0;
-      padding:10px 15px 5px;
-      }
-	  
-      .map .bingLogo-lg {
-      left:18px !important;
-      }
-	  
-	  #legendCon{
-	  position:absolute;
- 	  width:300px !important;
-	  margin-left:50px;
-  	  z-index:100;
-	  }
-	   #toolCon{
-	  position:absolute;
- 	  width:300px !important;
-	  margin-left:355px;
-  	  z-index:100;
-	  }
+#subtitle {
+	font-size: 13px;
+	margin-top: 10px;
+	overflow: hidden;
+}
 
-	  #legendDiv, #toolDiv{
-	  display:none;
-	  background:#848484;
-	  max-height:450px;
-	  overflow:auto;
-	  padding:10px;
-	  font-family:Arial, Helvetica, sans-serif;
-	  }
+#logoArea {
+	float: right;
+	padding-top: 25px;
+	padding-right: 25px;
+	text-align: right;
+}
 
-	  #legendToggle, #toolToggle{
-	  position:relative;
-	  background:#848484;
-	  margin-top:-1px;
-	  width:125px;
-	  .height:28px;
-	  cursor:pointer;
-	  z-index:100;
-	  color:#fff;
-	  font-family:Arial, Helvetica, sans-serif;
-	  }
-	  
-	  #legTogText, #toolTogText{
-	  position:relative;
-	  margin:auto;
-	  margin-left:2px;
-	  .margin-top:0px;
-	  padding:5px;
-	  color:#fff;
-	  font-family:Arial, Helvetica, sans-serif;
-	  }
-	  
-	  g,v {
-	  cursor:pointer;
-	  }
-	
-	  #loadingCon{
-	  position:absolute;
-	  z-index:99;
-	  width:100%;
-      top:40%;
-	  text-align:center;
-	  }
-		
-	  #loadingDialog{
-	  margin:auto;
-	  background-color:#dadada;
-	  width:300px	
-	  }
-		
-	  #loadingHeader{
-	  background-color:#444;
-	  color:#fff;
-	  padding-top:10px;
-	  padding-bottom:10px;
-	  width:300px;
-	  }
-		
-	  #loading{
-	  padding-top:10px;
-	  }
-		
-	  #loadingImg{
-	  margin-top:5px;
-	  padding-bottom:10px;
-	  }
+#social {
+	margin-bottom: 20px;
+}
+
+#msLink {
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	outline: none;
+}
+
+#logo {
+	border: none;
+	outline: none;
+}
+
+#logoImg {
+	border: none;
+	outline: none;
+}
+
+#map {
+	margin: 0;
+}
+
+#swipeImg {
+	display: none;
+	position: absolute;
+	z-index: 2;
+}
+
+.moveable {
+	position: absolute;
+	border-left: 1px solid #848484;
+	border-right: 1px solid #848484;
+	background-color: #dadada;
+	width: 6px;
+	height: 100%;
+	padding: 0 !important;
+	margin: 0;
+	z-index: 30;
+	cursor: col-resize;
+}
+
+.moveable:hover {
+	background-color: #999;
+}
+
+#footer {
+	display: none;
+	font-size: 12px;
+	background: #848484;
+	height: 18px;
+	margin: 0;
+	padding: 10px 15px 5px;
+}
+
+.map .bingLogo-lg {
+	left: 18px !important;
+}
+
+#legendCon {
+	position: absolute;
+	width: 300px !important;
+	margin-left: 50px;
+	z-index: 100;
+}
+#toolCon {
+	position: absolute;
+	width: 300px !important;
+	margin-left: 355px;
+	z-index: 100;
+}
+
+#legendDiv, #toolDiv {
+	display: none;
+	background: #848484;
+	max-height: 450px;
+	overflow: auto;
+	padding: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#legendToggle {
+	position: relative;
+	background: #848484;
+	margin-top: -1px;
+	width: 125px;.height:28px;
+	cursor: pointer;
+	z-index: 100;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+}
+#toolToggle {
+	position: relative;
+	background: #848484;
+	margin-top: -1px;
+	width: 165px;.height:28px;
+	cursor: pointer;
+	z-index: 100;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#legTogText, #toolTogText {
+	position: relative;
+	margin: auto;
+	margin-left: 2px;.margin-top:0px;
+	padding: 5px;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+g, v {
+	cursor: pointer;
+}
+
+#loadingCon {
+	position: absolute;
+	z-index: 99;
+	width: 100%;
+	top: 40%;
+	text-align: center;
+}
+
+#loadingDialog {
+	margin: auto;
+	background-color: #dadada;
+	width: 300px
+}
+
+#loadingHeader {
+	background-color: #444;
+	color: #fff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 300px;
+}
+
+#loading {
+	padding-top: 10px;
+}
+
+#loadingImg {
+	margin-top: 5px;
+	padding-bottom: 10px;
+}

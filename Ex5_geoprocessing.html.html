@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Untitled Document</title>
+		<script type="text/javascript">
+			var djConfig = { parseOnLoad: true };
+		</script>
+		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.1" type="text/javascript">
+		</script>
+		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.1/js/dojo/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" type="text/css" href="http://trainingcloud.arcgis.com/BAAJ/styles/css/BAAJ_Clean.css">
+		
+		<!-- Requires and Functions -->
+		<script type="text/javascript">
+			dojo.require("dijit.layout.BorderContainer");
+			dojo.require("dijit.layout.ContentPane");
+			dojo.require("dijit.form.Button");
+			dojo.require("esri.map");
+			dojo.require("esri.dijit.BasemapGallery");
+			dojo.require("dijit.TitlePane");
+			dojo.require("dijit.form.Slider");
+			dojo.require("esri.tasks.gp");
+			
+			var map;
+			var transitDistSlider, highwayDistSlider;
+			var gpTask;
+			
+			function init() {
+				var initialExtent = new esri.geometry.Extent({
+					"xmin": -13049000,
+					"ymin": 4034000,
+					"xmax": -13041000,
+					"ymax": 4039000,
+					"spatialReference": {"wkid": 102100}
+				});
+				map = new esri.Map("map", { extent:initialExtent });
+				var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");
+				var operationalLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://trainingcloud.arcgis.com/ArcGIS/rest/services/Redlands_PointsOfInterest/MapServer");
+				var cityLimitsLayer = new esri.layers.ArcGISTiledMapServiceLayer("http://trainingcloud.arcgis.com/ArcGIS/rest/services/Redlands_CityLimits/MapServer", { opacity:0.5 });
+				var transitStopsLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://trainingcloud.arcgis.com/ArcGIS/rest/services/Redlands_TransitStops/MapServer");
+				map.addLayers([basemap, cityLimitsLayer, operationalLayer, transitStopsLayer]);
+				createBasemapGallery();
+			
+				transitDistSlider = new dijit.form.HorizontalSlider({
+					value: 1,
+					minimum: 0.25,
+					maximum: 3,
+					style: "width:210px",
+					discreteValues: 12,
+					intermediateChanges: true,
+					onChange: function (value) {
+						dojo.byId("transitDistValueDiv").innerHTML = value + "mi";
+					}
+				},"transitDistSliderDiv");
+				highwayDistSlider = new dijit.form.HorizontalSlider({
+					value: 0.5,
+					minimum: 0.5,
+					maximum: 4,
+					style: "width:210px",
+					discreteValues: 8,
+					intermediateChanges: true,
+					onChange: function (value) {
+						dojo.byId("highwayDistValueDiv").innerHTML = value + "mi";
+					}
+				},"highwayDistSliderDiv");
+			
+				gpTask = new esri.tasks.Geoprocessor("http://trainingcloud.arcgis.com/ArcGIS/rest/services/GeoProcessing/Redlands_GP/GPServer/HouseHunting");
+			
+				dojo.connect(map, "onLoad", function() {
+                                    alert("on load");
+					var gpResultSymbol = new esri.symbol.SimpleFillSymbol();
+					gpResultSymbol.setColor(new dojo.Color([0,255,0,0.5]));
+					map.graphics.setRenderer(new esri.renderer.SimpleRenderer(gpResultSymbol));
+				});
+			}
+			
+			function findSuitableAreas() {
+				var transitDistUnit = new esri.tasks.LinearUnit();
+				transitDistUnit.distance = transitDistSlider.value;
+				transitDistUnit.units = "esriMiles";
+				var highwayDistUnit = new esri.tasks.LinearUnit();
+				highwayDistUnit.distance = highwayDistSlider.value;
+				highwayDistUnit.units = "esriMiles";
+				gpTask.execute( {
+					dist_transit:transitDistUnit,
+					dist_highways:highwayDistUnit
+				}, showResults);
+			}
+			
+			function showResults(resultsParam) {
+				map.graphics.clear();
+				dojo.forEach(resultsParam[0].value.features, function(feature){
+					map.graphics.add(feature);
+				})
+			}
+			
+			function createBasemapGallery() {
+				var basemapGallery = new esri.dijit.BasemapGallery({map:map, showArcGISBasemaps:true}, "basemapGallery");
+				basemapGallery.startup();
+			}
+			
+			dojo.addOnLoad(init);
+		</script>
+		
+	</head>
+	<body class="claro">
+		<div id="appContent" dojotype="dijit.layout.BorderContainer" design="headline" gutters="true" style="width:100%; height:90%; margin:0;">
+			<div id="title" dojotype="dijit.layout.ContentPane" region="top">
+				<h1>My Template</h1>
+			</div>
+			<div id="leftPane" dojotype="dijit.layout.ContentPane" region="left">
+			</div>
+			<div id="rightPane" dojotype="dijit.layout.ContentPane" region="right" style="width:230px;">
+				<div dojotype="dijit.TitlePane" title="Custom Tools">
+					<div id="transitDistValueDiv" align="center">1mi</div>
+					<div id="transitDistSliderDiv">Maximum Distance to Nearest Transit Stop</div>
+					<br />
+					<div id="highwayDistValueDiv" align="center">0.5mi</div>
+					<div id="highwayDistSliderDiv">Minimum Distance Away from Nearest Highway</div>
+					<br />
+					<button dojotype="dijit.form.Button" onClick="findSuitableAreas();">Find Suitable Areas</button>
+				</div>
+				<div dojotype="dijit.TitlePane" title="Switch Basemap" open="false">
+					<div id="basemapGallery" style="overflow:scroll;">
+					</div>
+				</div>
+			</div>
+			<div id="map" dojotype="dijit.layout.ContentPane" region="center" style="overflow:hidden;">
+			</div>
+			<div id="footer" dojotype="dijit.layout.ContentPane" region="bottom">
+				<center>Created by J. Doe</center>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+.freehandIcon {
+	background-image: url(../images/i_draw_freepoly.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 30px;
+	height: 30px;
+}
+.polyIcon {
+	background-image: url(../images/i_draw_poly.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 30px;
+	height: 30px;
+}
+button {
+	border: 1px solid #759dc0;
+	padding: 2px 4px 4px 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
