@@ -82,9 +82,11 @@ function initMap() {
         var layers = response.itemInfo.itemData.operationalLayers;
         if (map.loaded) {
             initUI(layers);
+            initFunctionality();
         } else {
             dojo.connect(map, "onLoad", function() {
                 initUI(layers);
+                initFunctionality();
             });
         }
         //resize the map when the browser resizes
@@ -97,19 +99,11 @@ function initMap() {
 
 }
 
-
-function selectBehavior() {
-//alert("change");
-//alert(dojo.byId("selAOI").valueOf());
-//alert(dijit.byId('selAOI').get('value'));
-//alert(dijit.byId('selAOI').attr('displayedValue'));
-}
-
 function initUI(layers) {
-     //set symbology for gp service results
-    var gpResultSymbol = new esri.symbol.SimpleFillSymbol();
-    gpResultSymbol.setColor(new dojo.Color([0,255,0,0.5]));
-    map.graphics.setRenderer(new esri.renderer.SimpleRenderer(gpResultSymbol));
+    //set symbology for gp service results
+    //var gpResultSymbol = new esri.symbol.SimpleFillSymbol();
+    //gpResultSymbol.setColor(new dojo.Color([0,255,0,0.5]));
+    //map.graphics.setRenderer(new esri.renderer.SimpleRenderer(gpResultSymbol));
     
     
     //add chrome theme for popup
@@ -131,9 +125,6 @@ function initUI(layers) {
     } else {
         dojo.byId('legendDiv').innerHTML = "";
     }
-    defaultReportForm()
-    initSelectionToolbar();
-
 }
 
 function buildLayersList(layers) {

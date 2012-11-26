@@ -1,14 +1,39 @@
-function createReport() {
-    alert("dgkslgj");
+function initFunctionality(){
+    defaultReportForm()
+    initSelectionToolbar();
+    
+    var queryTask = new esri.tasks.QueryTask("http://sandbox.maps.bcgov/arcserver/rest/services/CEAMF/MuleDeerUWR/MapServer/0");
+    //identify proxy page to use if the toJson payload to the geometry service is greater than 2000 characters.        
+    ////If this null or not available the buffer operation will not work.  Otherwise it will do a http post to the proxy.
+    esri.config.defaults.io.proxyUrl = "http://sandbox.maps.bcgov/test/Proxy/proxy.ashx";        
+    esri.config.defaults.io.alwaysUseProxy = false;
+    
+    var query = new esri.tasks.Query();
+    query.returnGeometry = true;
+    query.outFields = ["RISK"];
+    query.outSpatialReference = {
+        "wkid":map.spatialReference.wkid
+    }; 
+    var queryGraphic = null;
+    // +++++Listen for QueryTask onComplete event+++++
+    dojo.connect(queryTask, "onComplete", function(graphics) {
+        alert("queryComplete");
+        queryGraphic = graphics.features[0];
+        var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new dojo.Color([100,100,100]), 3), new dojo.Color([255,0,0,0.20]));
+        queryGraphic.setSymbol(symbol);
+    //queryGraphic.setInfoTemplate(infoTemplate);
+
+    });
+
 }
 
-function initSelectionToolbar(myMap) {
+function initSelectionToolbar() {
     selectionToolbar = new esri.toolbars.Draw(map);
     dojo.connect(selectionToolbar, "onDrawEnd", function(geometry) {
         selectionToolbar.deactivate();
         var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
-        var graphic = new esri.Graphic(geometry, symbol);
-        map.graphics.add(graphic);
+        aoiGraphic = new esri.Graphic(geometry, symbol);
+        map.graphics.add(aoiGraphic);
         document.getElementById("btnReport").disabled = false;
 
     });
@@ -36,10 +61,10 @@ function setVis(mode, element) {
     if (mode == "show") {
         if (document.all) {
             document.all[element].style.visibility = "visible";
-            //document.all[element].style.display = "block";
+        //document.all[element].style.display = "block";
         } else if (document.layers) {
             document.layers[element].visibility = "show";
-           // document.layers[element].display = "block";
+        // document.layers[element].display = "block";
         } else if (document.getElementById) {
             document.getElementById(element).style.display = "block";
         }
@@ -47,10 +72,10 @@ function setVis(mode, element) {
     if (mode == "hide") {
         if (document.all) {
             document.all[element].style.visibility = "hidden";
-            //document.all[element].style.display = "none";
+        //document.all[element].style.display = "none";
         } else if (document.layers) {
             document.layers[element].visibility = "hide";
-           // document.layers[element].display = "none";
+        // document.layers[element].display = "none";
         } else if (document.getElementById) {
             document.getElementById(element).style.display = "none";
                         
@@ -59,23 +84,19 @@ function setVis(mode, element) {
 }
 function createReport(){
     alert("report");
-    document.getElementById("btnReport").disabled = true;
-    var transitDistUnit = new esri.tasks.LinearUnit();
-    transitDistUnit.distance = 1;
-    transitDistUnit.units = "esriMiles";
-    var highwayDistUnit = new esri.tasks.LinearUnit();
-    highwayDistUnit.distance = .5;
-    highwayDistUnit.units = "esriMiles";
-    gpTask.execute( {
-        dist_transit:transitDistUnit,
-        dist_highways:highwayDistUnit
-    }, showResults); 
+    alert(aoiGraphic.geometry);
+    query.geometry = aoiGraphic.geometry;
+    alert("report2");
+    query.spatialRelationship = esri.tasks.Query.SPATIAL_REL_INTERSECTS;
+    queryTask.execute(query);
+    alert("executing, I think");
+  
 }
-function showResults(resultsParam) {
-
-    dojo.forEach(resultsParam[0].value.features, function(feature){
-        map.graphics.add(feature);
-        var featExtent = feature.geometry.getExtent();
-        map.setExtent(featExtent);
-    })
-}    
+function showResults(featureSet) {
+    map.graphics.clear();
+    var queryFeatures = featureSet.features;
+    for (var i=0; i < queryFeatures.length; i++) {
+        queryFeatures[i].setSymbol(querySymbol);
+        map.graphics.add(queryFeatures[i]);
+    }
+}  

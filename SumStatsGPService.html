@@ -34,13 +34,20 @@
             require(["dojo/parser", "dijit/form/Button"]);
             require(["dojo/parser", "dijit/form/Select"]);
             dojo.require("dijit.form.Button");
-            dojo.require("esri.tasks.gp");
+            //dojo.require("esri.tasks.gp");
             dojo.require("dojox.grid.DataGrid");      
             dojo.require("dojo.data.ItemFileReadStore");
+            dojo.require("esri.tasks.query");
+            dojo.require("esri.tasks.geometry");
 
             var selectionToolbar;
             var gpTask;
-            
+            //var grid, store;
+            var queryTask;
+            var queryParams;
+            var querySymbol;
+            var aoiGraphic;
+                        
             function init() {
 
                 configOptions = {
@@ -63,13 +70,8 @@
                     sharingurl : "http://www.arcgis.com/sharing/content/items"
                 };
                 
-                gpTask = new esri.tasks.Geoprocessor("http://trainingcloud.arcgis.com/ArcGIS/rest/services/GeoProcessing/Redlands_GP/GPServer/HouseHunting");
-                dojo.connect(map, "onLoad", function() {
-                    alert("on load");
-                    var gpResultSymbol = new esri.symbol.SimpleFillSymbol();
-                    gpResultSymbol.setColor(new dojo.Color([0,255,0,0.5]));
-                    map.graphics.setRenderer(new esri.renderer.SimpleRenderer(gpResultSymbol));
-                });
+                //gpTask = new esri.tasks.Geoprocessor("http://trainingcloud.arcgis.com/ArcGIS/rest/services/GeoProcessing/Redlands_GP/GPServer/HouseHunting");
+                
                 initMap();
             }
 
