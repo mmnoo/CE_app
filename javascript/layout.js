@@ -86,7 +86,7 @@ function initMap() {
         } else {
             dojo.connect(map, "onLoad", function() {
                 initUI(layers);
-                initFunctionality();
+                initFunctionality(map);
             });
         }
         //resize the map when the browser resizes
